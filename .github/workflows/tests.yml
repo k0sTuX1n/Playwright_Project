@@ -28,4 +28,6 @@ jobs:
         run: playwright install --with-deps
 
       - name: Run tests
+        env:
+          PYTHONPATH: .
         run: pytest
