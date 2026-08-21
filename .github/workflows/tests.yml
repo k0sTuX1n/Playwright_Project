@@ -30,9 +30,21 @@ jobs:
           PYTHONPATH: .
         run: pytest --alluredir=allure-results
 
-      - name: Upload Allure results
-        uses: actions/upload-artifact@v4
-        if: always()
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
         with:
-          name: allure-results
-          path: allure-results
+          node-version: "20"
+
+      - name: Install Allure
+        run: npm install -g allure-commandline
+
+      - name: Generate Allure report
+        if: always()
+        run: allure generate allure-results -o allure-report --clean
+
+      - name: Upload Allure report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-report
+          path: allure-report
